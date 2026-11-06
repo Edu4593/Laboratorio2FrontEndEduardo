@@ -1,0 +1,39 @@
+<div class="page-header">
+  <div>
+    <h1>Usuarios</h1>
+    <span class="muted">{{ usuarios().length }} registrados</span>
+  </div>
+</div>
+
+@if (mensajeError()) {
+  <div class="alert alert-error">{{ mensajeError() }}</div>
+}
+
+<div class="card table-wrap">
+  @if (cargando()) {
+    <p class="empty">Cargando...</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Rol</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (usuario of usuarios(); track usuario.id) {
+          <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.username }}</td>
+            <td>{{ usuario.role }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="3" class="empty">No hay usuarios registrados.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

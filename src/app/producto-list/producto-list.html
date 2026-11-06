@@ -1,0 +1,64 @@
+<div class="page-header">
+  <div>
+    <h1>Productos</h1>
+    <span class="muted">{{ productos().length }} registrados</span>
+  </div>
+  <!-- Solo el SUPER-ADMIN puede crear -->
+  @if (servicioAutenticacion.esAdministrador()) {
+    <a class="btn" routerLink="/productos/nuevo">+ Nuevo producto</a>
+  }
+</div>
+
+@if (mensajeError()) {
+  <div class="alert alert-error">{{ mensajeError() }}</div>
+}
+
+<div class="card table-wrap">
+  @if (cargando()) {
+    <p class="empty">Cargando...</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Categoría</th>
+          @if (servicioAutenticacion.esAdministrador()) {
+            <th>Acciones</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (producto of productos(); track producto.id) {
+          <tr>
+            <td>{{ producto.id }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.descripcion }}</td>
+            <td>{{ producto.precio | currency: 'USD' }}</td>
+            <td>{{ producto.stock }}</td>
+            <td>{{ producto.categoria?.nombre ?? '—' }}</td>
+            @if (servicioAutenticacion.esAdministrador()) {
+              <td class="actions">
+                <a class="btn btn-sm btn-secondary" [routerLink]="['/productos/editar', producto.id]">
+                  Editar
+                </a>
+                <button type="button" class="btn btn-sm btn-danger" (click)="eliminarProducto(producto)">
+                  Eliminar
+                </button>
+              </td>
+            }
+          </tr>
+        } @empty {
+          <tr>
+            <td [attr.colspan]="servicioAutenticacion.esAdministrador() ? 7 : 6" class="empty">
+              No hay productos registrados.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

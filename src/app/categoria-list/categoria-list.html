@@ -1,0 +1,58 @@
+<div class="page-header">
+  <div>
+    <h1>Categorías</h1>
+    <span class="muted">{{ categorias().length }} registradas</span>
+  </div>
+  <!-- Solo el SUPER-ADMIN puede crear -->
+  @if (authService.esAdministrador()) {
+    <a class="btn" routerLink="/categorias/nueva">+ Nueva categoría</a>
+  }
+</div>
+
+@if (mensajeError()) {
+  <div class="alert alert-error">{{ mensajeError() }}</div>
+}
+
+<div class="card table-wrap">
+  @if (cargando()) {
+    <p class="empty">Cargando...</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          @if (authService.esAdministrador()) {
+            <th>Acciones</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (categoria of categorias(); track categoria.id) {
+          <tr>
+            <td>{{ categoria.id }}</td>
+            <td>{{ categoria.nombre }}</td>
+            <td>{{ categoria.descripcion }}</td>
+            @if (authService.esAdministrador()) {
+              <td class="actions">
+                <a class="btn btn-sm btn-secondary" [routerLink]="['/categorias/editar', categoria.id]">
+                  Editar
+                </a>
+                <button type="button" class="btn btn-sm btn-danger" (click)="eliminarCategoria(categoria)">
+                  Eliminar
+                </button>
+              </td>
+            }
+          </tr>
+        } @empty {
+          <tr>
+            <td [attr.colspan]="authService.esAdministrador() ? 4 : 3" class="empty">
+              No hay categorías registradas.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

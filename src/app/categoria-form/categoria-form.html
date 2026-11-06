@@ -1,0 +1,29 @@
+<section class="card medium">
+  <h1>{{ esEdicion() ? 'Editar categoría' : 'Nueva categoría' }}</h1>
+
+  @if (mensajeError()) {
+    <div class="alert alert-error">{{ mensajeError() }}</div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="guardar()">
+    <label>
+      Nombre
+      <input type="text" formControlName="nombre" />
+      @if (campoInvalido('nombre')) {
+        <small class="error">El nombre es obligatorio</small>
+      }
+    </label>
+
+    <label>
+      Descripción
+      <textarea rows="3" formControlName="descripcion"></textarea>
+    </label>
+
+    <div class="form-actions">
+      <button type="submit" class="btn" [disabled]="guardando()">
+        {{ guardando() ? 'Guardando...' : (esEdicion() ? 'Actualizar' : 'Crear') }}
+      </button>
+      <a class="btn btn-secondary" routerLink="/categorias">Cancelar</a>
+    </div>
+  </form>
+</section>

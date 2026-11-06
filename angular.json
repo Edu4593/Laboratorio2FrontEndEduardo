@@ -24,9 +24,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.css"
-            ]
+            "styles": ["src/styles.css"]
           },
           "configurations": {
             "production": {
@@ -48,12 +46,16 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+              
             }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+           "proxyConfig": "proxy.conf.json"
+         },
           "configurations": {
             "production": {
               "buildTarget": "Laboratorio2FrontEndEduardo:build:production"

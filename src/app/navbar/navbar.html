@@ -1,0 +1,22 @@
+<nav class="navbar">
+  <a class="brand" routerLink="/productos">Laboratorio 2</a>
+
+  <ul>
+    <li><a routerLink="/productos" routerLinkActive="active">Productos</a></li>
+    <li><a routerLink="/categorias" routerLinkActive="active">Categorías</a></li>
+    @if (servicioAutenticacion.esAdministrador()) {
+      <li><a routerLink="/usuarios" routerLinkActive="active">Usuarios</a></li>
+    }
+  </ul>
+
+  <div class="user">
+    <span>{{ servicioAutenticacion.nombreDeUsuario() }}</span>
+    <span class="badge" [class.admin]="servicioAutenticacion.esAdministrador()">
+      {{ servicioAutenticacion.esAdministrador() ? 'SUPER-ADMIN' : 'USER' }}
+    </span>
+    <button type="button" class="btn btn-sm btn-outline-light" (click)="servicioAutenticacion.cerrarSesion()">
+      Cerrar sesión
+    </button>
+  </div>
+</nav>
+

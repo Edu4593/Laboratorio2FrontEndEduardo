@@ -1,0 +1,56 @@
+<section class="card narrow">
+  <h1>Crear cuenta</h1>
+  <p class="muted">Regístrate para acceder al sistema.</p>
+
+  @if (mensajeError()) {
+    <div class="alert alert-error">{{ mensajeError() }}</div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="registrarUsuario()">
+    <label>
+      Usuario
+      <input type="text" formControlName="username" autocomplete="off" />
+      @if (campoInvalido('username')) {
+        <small class="error">El usuario es obligatorio (entre 4 y 50 caracteres)</small>
+      }
+    </label>
+
+    <label>
+      Contraseña
+      <input type="password" formControlName="password" autocomplete="new-password" />
+      @if (campoInvalido('password')) {
+        <small class="error">La contraseña es obligatoria (mínimo 6 caracteres)</small>
+      }
+    </label>
+
+    <label>
+      Confirmar contraseña
+      <input type="password" formControlName="confirmar" autocomplete="new-password" />
+      @if (campoInvalido('confirmar') && form.controls.confirmar.hasError('required')) {
+        <small class="error">Confirma tu contraseña</small>
+      } @else if (noCoinciden) {
+        <small class="error">Las contraseñas no coinciden</small>
+      }
+    </label>
+
+    <label>
+      Rol
+      <select formControlName="role">
+        <option value="" disabled>Selecciona un rol</option>
+        @for (rol of roles; track rol) {
+          <option [value]="rol">{{ rol }}</option>
+        }
+      </select>
+      @if (campoInvalido('role')) {
+        <small class="error">Selecciona un rol</small>
+      }
+    </label>
+
+    <div class="form-actions">
+      <button type="submit" class="btn" [disabled]="guardando()">
+        {{ guardando() ? 'Registrando...' : 'Registrarse' }}
+      </button>
+      <a class="btn btn-secondary" routerLink="/login">Cancelar</a>
+    </div>
+  </form>
+</section>
