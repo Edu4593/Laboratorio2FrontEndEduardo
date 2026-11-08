@@ -23,6 +23,8 @@ export class CategoriaList implements OnInit {
 
   private obtenerCategorias(): void {
     this.cargando.set(true);
+    this.mensajeError.set(null);
+    
     this.categoriaService.listar().subscribe({
       next: (categorias) => {
         this.categorias.set(categorias);

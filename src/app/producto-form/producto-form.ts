@@ -71,11 +71,11 @@ export class ProductoForm implements OnInit {
     const payload: Producto = { ...resto, categoria: { id: categoriaId as number } };
 
     const productoId = this.id();
-    const request$ = productoId
+    const peticion$ = productoId
       ? this.productoService.actualizar(Number(productoId), payload)
       : this.productoService.crear(payload);
 
-    request$.subscribe({
+    peticion$.subscribe({
       next: () => this.router.navigate(['/productos']),
       error: (err) => {
         this.guardando.set(false);

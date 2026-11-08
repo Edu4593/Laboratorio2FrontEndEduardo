@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Service, computed, inject, signal } from '@angular/core'; 
+import { Injectable, computed, inject, signal } from '@angular/core'; 
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -11,6 +11,7 @@ import {
   ROLE_ADMIN,
   Usuario,
 } from '../interfaces/auth';
+import { jwtDecode } from 'jwt-decode';
 
 // El nombre bajo el cual guardaremos el "gafete" en la memoria del navegador
 const CLAVE_MEMORIA_TOKEN = 'lab2_token';
@@ -28,17 +29,7 @@ function leerTokenGuardado(): string | null {
 function decodificarToken(token: string | null): JwtPayload | null {
   if (!token) return null;
   try {
-    // Magia matemática (Base64) para traducir el texto raro del token a un objeto JSON que podamos leer
-    const parteInformacion = token.split('.')[1];
-    let base64 = parteInformacion.replace(/-/g, '+').replace(/_/g, '/');
-    base64 = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=');
-    const json = decodeURIComponent(
-      atob(base64)
-        .split('')
-        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-        .join(''),
-    );
-    return JSON.parse(json) as JwtPayload;
+    return jwtDecode<JwtPayload>(token);
   } catch {
     return null;
   }
@@ -66,7 +57,9 @@ function extraerPermisos(informacionToken: JwtPayload | null): string[] {
  * SERVICIO DE AUTENTICACIÓN
  * Administra quién entra, quién sale y qué permisos tienen.
  */
-@Service()
+@Injectable({
+  providedIn: 'root'
+})
 export class ServicioAutenticacion {
   // Herramientas para hacer peticiones al servidor y para navegar entre pantallas
   private readonly servidorHttp = inject(HttpClient);

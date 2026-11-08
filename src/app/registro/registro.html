@@ -23,15 +23,6 @@
       }
     </label>
 
-    <label>
-      Confirmar contraseña
-      <input type="password" formControlName="confirmar" autocomplete="new-password" />
-      @if (campoInvalido('confirmar') && form.controls.confirmar.hasError('required')) {
-        <small class="error">Confirma tu contraseña</small>
-      } @else if (noCoinciden) {
-        <small class="error">Las contraseñas no coinciden</small>
-      }
-    </label>
 
     <label>
       Rol

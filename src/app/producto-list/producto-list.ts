@@ -24,12 +24,14 @@ export class ProductoList implements OnInit {
 
   private obtenerProductos(): void {
     this.cargando.set(true);
+    this.mensajeError.set(null);
     this.productoService.listar().subscribe({
       next: (productosObtenidos) => {
         this.productos.set(productosObtenidos);
         this.cargando.set(false);
       },
-      error: () => {
+      error: (err) => {
+        console.error('Error al cargar productos:', err);
         this.mensajeError.set('No se pudieron cargar los productos.');
         this.cargando.set(false);
       },

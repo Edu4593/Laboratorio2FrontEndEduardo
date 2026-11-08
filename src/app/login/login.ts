@@ -30,7 +30,7 @@ export class Login {
     }
     this.loading.set(true);
     this.error.set(null);
-
+    this.form.disable()
     this.auth.login(this.form.getRawValue()).subscribe({
       next: () => {
         const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/productos';
