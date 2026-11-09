@@ -29,6 +29,7 @@ export class Login {
       return;
     }
     this.loading.set(true);
+    this.form.enable();
     this.error.set(null);
     this.form.disable()
     this.auth.login(this.form.getRawValue()).subscribe({

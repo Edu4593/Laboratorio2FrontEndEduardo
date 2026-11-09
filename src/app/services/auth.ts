@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, computed, inject, signal } from '@angular/core'; 
+import { Service, computed, inject, signal } from '@angular/core'; 
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -57,9 +57,7 @@ function extraerPermisos(informacionToken: JwtPayload | null): string[] {
  * SERVICIO DE AUTENTICACIÓN
  * Administra quién entra, quién sale y qué permisos tienen.
  */
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class ServicioAutenticacion {
   // Herramientas para hacer peticiones al servidor y para navegar entre pantallas
   private readonly servidorHttp = inject(HttpClient);
